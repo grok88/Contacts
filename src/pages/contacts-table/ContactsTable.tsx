@@ -12,6 +12,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
+import { CopyTextToClipboard } from "../../components/copyTextToClipboard/CopyTextToClipboard";
+import { NATIONALITIES_FULL_NAME } from "../../constans/constans";
 
 type ContactsTablePropsType = {
   data: Array<ContactType>;
@@ -61,10 +63,26 @@ export const ContactsTable: React.FC<ContactsTablePropsType> = React.memo(
                     </Typography>
                     <Typography>{contact.dob.age}</Typography>
                   </TableCell>
-                  <TableCell align="left">{contact.email}</TableCell>
-                  <TableCell align="left">{contact.phone}</TableCell>
-                  <TableCell align="left">6</TableCell>
-                  <TableCell align="right">7</TableCell>
+                  <TableCell align="left">
+                    <CopyTextToClipboard text={contact.email} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <CopyTextToClipboard text={contact.phone} />
+                  </TableCell>
+                  <TableCell align="left">
+                    <Typography>/{contact.location.country}/</Typography>
+                    <Typography>
+                      {contact.location.street.number}{" "}
+                      {contact.location.street.name}, {contact.location.city}
+                    </Typography>
+                    <Typography>
+                      {contact.location.state}, {contact.location.country},{" "}
+                      {contact.location.postcode}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    {NATIONALITIES_FULL_NAME[contact.nat]}
+                  </TableCell>
                 </TableRow>
               );
             })}

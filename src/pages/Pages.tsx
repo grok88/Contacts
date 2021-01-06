@@ -1,6 +1,6 @@
 import Container from "@material-ui/core/Container";
 import React from "react";
-import { Grid, Typography } from "@material-ui/core";
+import { Grid, LinearProgress, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useContacts } from "./useContacts";
 import { ContactsTable } from "./contacts-table/ContactsTable";
@@ -40,7 +40,7 @@ export const Contacts = () => {
         <Grid item xs={12}>
           {(() => {
             if (contacts.isLoading) {
-              return <div>...isLoading</div>;
+              return <LinearProgress color="secondary" />;
             }
             if (contacts.isError) {
               return <div>...isError</div>;

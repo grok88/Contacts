@@ -9,10 +9,14 @@ export type ContactType = {
     last: string;
   };
   location: {
-    street: string;
+    street: {
+      number: number;
+      name: string;
+    };
     city: string;
     state: string;
     postcode: string;
+    country: string;
     coordinates: {
       latitude: string;
       longitude: string;
