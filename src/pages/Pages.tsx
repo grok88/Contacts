@@ -1,9 +1,11 @@
 import Container from "@material-ui/core/Container";
 import React from "react";
-import { Grid, LinearProgress, Typography } from "@material-ui/core";
+import { Box, Grid, LinearProgress, Typography } from "@material-ui/core";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { useContacts } from "./useContacts";
 import { ContactsTable } from "./contacts-table/ContactsTable";
+import { ToggleViewMode } from "../components/toggle-view-mode/ToggleViewMode";
+import { useViewMode } from "./useViewMode";
 
 // import axios from 'axios'
 //
@@ -22,20 +24,26 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   })
 );
+export const VIEW_MODES = {
+  TABLE: "table",
+  GRID: "grid",
+};
 
 export const Contacts = () => {
   const classes = useStyles();
   const contacts = useContacts();
-
-  console.log(contacts.data);
+  const [viewMode, setViewMode] = useViewMode();
 
   return (
     <Container>
       <Grid container className={classes.root}>
         <Grid item xs={12} className={classes.titleContainer}>
-          <Typography variant="h3" component="h1">
-            Contacts
-          </Typography>
+          <Box display="flex" justifyContent="space-between">
+            <Typography variant="h4" component="h1">
+              Contacts
+            </Typography>
+            <ToggleViewMode viewMode={viewMode} setViewMode={setViewMode} />
+          </Box>
         </Grid>
         <Grid item xs={12}>
           {(() => {
@@ -45,7 +53,13 @@ export const Contacts = () => {
             if (contacts.isError) {
               return <div>...isError</div>;
             }
-            return <ContactsTable data={contacts.data} />;
+            if (viewMode === VIEW_MODES.TABLE) {
+              return <ContactsTable data={contacts.data} />;
+            }
+            if (viewMode === VIEW_MODES.GRID) {
+              return "GRID";
+            }
+            return null;
           })()}
         </Grid>
       </Grid>
